@@ -9,89 +9,55 @@
 
 #include<Servo.h>
 
-Servo servohori;
-int servoh = 0;
-int servohlimithigh = 180;
-int servohlimitlow = 0;
-
-Servo servoverti;
-int servov = 0;
-int servovlimithigh = 180;
-int servovlimitlow = 0;
+Servo servoservo;
+int servoservo = 0;
+int servoslimithigh = 180;
+int servoslimitlow = 0;
 
 //Assigning LDRs variables
 int ldrtopl = 0;
 int ldrtopr = 1;
-int ldrbotr = 2;
-int ldrbotl = 3;
 
 void setup() {
-  servohori.attach(10);
-  servohori.write(0);
-  servoverti.attach(9);
-  servoverti.write(0);
+  Serial.begin(9600);
+  servoservo.attach(11);
+  servoservo.write(0);
+  delay(3000);
 }
 
 void loop() {
   /* code */
-  servoh = servohori.read();
-  servov = servoverti.read();
-
+  servos = servoservo.read();
+ 
   //capturing analog values of each LDR
-int topl = analogRead(ldrtopl);
-int topr = analogRead(ldrtopr);
-int botl = analogRead(ldrbotl);
-int botr = analogRead(ldrbotr);
-// calculating average
-int avgtop = (topl + topr) / 2; //average of top LDRs
-int avgbot = (botl + botr) / 2; //average of bottom LDRs
-int avgleft = (topl + botl) / 2; //average of left LDRs
-int avgright = (topr + botr) / 2; //average of right LDRs
+int left = analogRead(ldrleft);
+int right = analogRead(ldrright);
 
-if (avgtop < avgbot)
-{
-  servoverti.write(servov +1);
-  if (servov > servovLimitHigh)
-   {
-    servov = servovLimitHigh;
-   }
-  delay(10);
-}
-else if (avgbot < avgtop)
-{
-  servoverti.write(servov -1);
-  if (servov < servovLimitLow)
-{
-  servov = servovLimitLow;
-}
-  delay(10);
-}
-else
-{
-  servoverti.write(servov);
-}
+int leftleft;
+  int rightright;
+  
+if (leftleft > rightright)
 
-if (avgleft > avgright)
 {
-  servohori.write(servoh +1);
-  if (servoh > servohLimitHigh)
+  servoservo.write(servos +1);
+  if (servos > servosLimitHigh)
   {
-  servoh = servohLimitHigh;
+  servos = servosLimitHigh;
   }
   delay(10);
 }
-else if (avgright > avgleft)
+else if (rightright > leftleft)
 {
-  servohori.write(servoh -1);
-  if (servoh < servohLimitLow)
+  servoservo.write(servos -1);
+  if (servos < servosLimitLow)
    {
-   servoh = servohLimitLow;
+   servos = servosLimitLow;
    }
   delay(10);
 }
 else
 {
-  servohori.write(servoh);
+  servoservo.write(servos);
 }
-delay(50)
+delay(5000);
 }
